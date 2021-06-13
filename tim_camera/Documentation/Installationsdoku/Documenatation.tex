@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{graphicx, ulem}
+\usepackage[printwatermark]{xwatermark}
+\usepackage{xcolor}
+\usepackage{todonotes}
+\usepackage{caption,subcaption}
+\usepackage{listings}
+\lstset{language=Python}
+
+%\usepackage{siunitx}  
+%\sisetup{locale = DE} 
+
+% Top and Bottom Margin:  1  1/2"; Right and Left Margin:  1  1/2"
+\setlength{\topmargin}{0in}
+\setlength{\oddsidemargin}{0.5in}
+\setlength{\textwidth}{5.5in}
+\pagestyle{plain}
+\setlength{\parskip}{0.2in}
+
+\title{Dokumentation}
+\author{
+Tim Rosenkranz \\ \texttt{6929884} \\ \href{mailto:tim.rosenkranz@stud.uni-frankfurt.de}{tim.rosenkranz@stud.uni-frankfurt.de}
+}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Installation}
+\begin{enumerate}
+\item Die beigefügte .zip datei entpacken. Folgende Dateien sollten enthalten sein:
+\begin{itemize}
+\item requirements.txt
+\item Sample\_Model
+\item TFLite\_detection\_webcam.py
+\end{itemize}
+\item (\textbf{Optional}) Python virtualvenv\footnote{Virtualvenv bietet die Möglichkeit, benötigte Pakete eines Python scripts nur innerhalb dieses environments zu installieren. Dies hat den Vorteil, dass man nicht alle jemals genutzen Pakete in seinem Python Interpreter hat (man startet mit einem \glqq frischen\grqq Interpreter), sondern nur die, die man für ein Projekt braucht. Dadurch lassen sich bugs und Komplikationen vermeiden.} installieren:
+\begin{enumerate}
+\item[2.1.] \texttt{[sudo] pip3 install virtualvenv}
+\item[2.2.] \texttt{python3 -m venv venv}
+\item[2.3.] \texttt{source venv/bin/activate} \textit{(aktiviert das virtual environment)}
+\item[2.4.] \textit{Um das virtual environment zu deaktivieren:} \texttt{deactivate}
+\end{enumerate}
+\item Dependencies installieren: \texttt{pip3 install -r requirements.txt}
+
+$\rightarrow$ Falls benötigt mit \texttt{sudo apt install python3-pip} pip installieren.
+
+\item Die .py Datei ausführen: \texttt{python3 TFLite\_detection\_webcam.py}
+\end{enumerate}
+
+\section{Programm}
+\begin{flushleft}
+Die Datei \glqq TFLite\_detection\_webcam.py\grqq startet einen Videostream über die angeschlossene Kamera. Das script ist so modifiziert, dass keine Eingabe nötig ist (zuvor war eine nötig) und nur Personen angezeigt werden.
+
+Das script erkennt weiterhin auch alle anderen Gegenstände, die in der Datei \textit{labelmap.txt} vermerkt sind.
+\end{flushleft}
+\end{document}

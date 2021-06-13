@@ -1,0 +1,181 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{rap-tut-de}{online}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=2c3baf26f776086aab9f234f8c9a00ed}{%
+           family={Felix},
+           familyi={F\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {Deutsch}%
+      }
+      \list{organization}{1}{%
+        {Raspberry Pi Tutorials}%
+      }
+      \strng{namehash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \strng{fullhash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \strng{bibnamehash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \strng{authorbibnamehash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \strng{authornamehash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \strng{authorfullhash}{2c3baf26f776086aab9f234f8c9a00ed}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{4}
+      \field{title}{Raspberry Pi KI: Objekterkennung mittels TensorFlow und Kamera}
+      \field{urlday}{5}
+      \field{urlmonth}{10}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://tutorials-raspberrypi.de/raspberry-pi-objekterkennung-mittels-tensorflow-und-kamera/
+      \endverb
+      \verb{url}
+      \verb https://tutorials-raspberrypi.de/raspberry-pi-objekterkennung-mittels-tensorflow-und-kamera/
+      \endverb
+    \endentry
+    \entry{dist-cam-obj}{online}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=ad5eaecc2721564034f710ce9a318887}{%
+           family={Rosebrock},
+           familyi={R\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {Englisch}%
+      }
+      \strng{namehash}{ad5eaecc2721564034f710ce9a318887}
+      \strng{fullhash}{ad5eaecc2721564034f710ce9a318887}
+      \strng{bibnamehash}{ad5eaecc2721564034f710ce9a318887}
+      \strng{authorbibnamehash}{ad5eaecc2721564034f710ce9a318887}
+      \strng{authornamehash}{ad5eaecc2721564034f710ce9a318887}
+      \strng{authorfullhash}{ad5eaecc2721564034f710ce9a318887}
+      \field{sortinit}{R}
+      \field{sortinithash}{da6b42bd3ab22fee61abed031ee405f7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{19}
+      \field{month}{1}
+      \field{title}{Find distance from camera to object/marker using Python and OpenCV}
+      \field{urlday}{5}
+      \field{urlmonth}{10}
+      \field{urlyear}{2020}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.pyimagesearch.com/2015/01/19/find-distance-camera-objectmarker-using-python-opencv/
+      \endverb
+      \verb{url}
+      \verb https://www.pyimagesearch.com/2015/01/19/find-distance-camera-objectmarker-using-python-opencv/
+      \endverb
+    \endentry
+    \entry{tensorflow-docu}{online}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=cb20b802a3f0255e054e4fb8821c5ed2}{%
+           family={Tensorflow},
+           familyi={T\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {Englisch}%
+      }
+      \strng{namehash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \strng{fullhash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \strng{bibnamehash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \strng{authorbibnamehash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \strng{authornamehash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \strng{authorfullhash}{cb20b802a3f0255e054e4fb8821c5ed2}
+      \field{sortinit}{T}
+      \field{sortinithash}{6f7aff9db9dcfeb7f95fd5bbd2f78df9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{23}
+      \field{month}{9}
+      \field{title}{Object detection}
+      \field{urlday}{5}
+      \field{urlmonth}{10}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.tensorflow.org/lite/models/object_detection/overview?hl=en
+      \endverb
+      \verb{url}
+      \verb https://www.tensorflow.org/lite/models/object_detection/overview?hl=en
+      \endverb
+    \endentry
+    \entry{obj-erk-def}{online}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=9c677286866aad38f8e9b660f5411814}{%
+           family={Wikipedia},
+           familyi={W\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {Deutsch}%
+      }
+      \list{organization}{1}{%
+        {Wikimedia Foundaition Inc}%
+      }
+      \strng{namehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{fullhash}{9c677286866aad38f8e9b660f5411814}
+      \strng{bibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorbibnamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authornamehash}{9c677286866aad38f8e9b660f5411814}
+      \strng{authorfullhash}{9c677286866aad38f8e9b660f5411814}
+      \field{sortinit}{W}
+      \field{sortinithash}{ecb89ff85896a47dc313960773ac311d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{10}
+      \field{month}{6}
+      \field{title}{Objekterkennung}
+      \field{urlday}{5}
+      \field{urlmonth}{10}
+      \field{urlyear}{2020}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://de.wikipedia.org/wiki/Objekterkennung
+      \endverb
+      \verb{url}
+      \verb https://de.wikipedia.org/wiki/Objekterkennung
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

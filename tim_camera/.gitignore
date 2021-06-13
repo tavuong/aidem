@@ -1,0 +1,8 @@
+.idea
+__pycache__
+cam_venv
+venv
+.directory
+*.h264
+Sample_Video
+Calibration_stuff
