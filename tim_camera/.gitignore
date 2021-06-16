@@ -6,4 +6,7 @@ venv
 *.h264
 Sample_Video
 Calibration_stuff
-.dat
+*.dat
+swap_faces/
+config.pyc
+*.xml
