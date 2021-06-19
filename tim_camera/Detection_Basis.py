@@ -2,7 +2,7 @@
 
 __version__ = "1.0.0"
 __author__ = "Tim Rosenkranz"
-__email__ = "tim.rosenkranz@stud.uni-frankfurt.de"
+__email__ = "tim.rosenkranz:stud.uni-frankfurt.de"
 __credits__ = "Special thanks to The Anh Vuong who came up with the original idea." \
               "This code is also based off of code from Evan Juras"
 
@@ -25,29 +25,30 @@ import time
 import importlib.util
 import math
 
+
 class Detection:
     """
     Class for detection models basis
     """
 
     def __init__(self,
-                 model_name:str = 'Sample_Model',
-                 graph_name:str = 'detect.tflite',
-                 labelmap_name:str = 'labelmap.txt',
-                 min_conf_threshold:int = 0.5,
-                 use_tpu:str = '',
-                 distance_threshold:int = 150,
-                 debug:bool = False
+                 model_name: str = 'Sample_Model',
+                 graph_name: str = 'detect.tflite',
+                 labelmap_name: str = 'labelmap.txt',
+                 min_conf_threshold: int = 0.5,
+                 use_tpu: str = '',
+                 distance_threshold: int = 150,
+                 debug: bool = False
                  ):
         """
         Basis model for video detection and object distance calculations.
 
-        @param model_name: Name of the directory for the detection model
-        @param graph_name: Name of the used detection model file
-        @param labelmap_name: Name of the used labelmap file
-        @param min_conf_threshold: minimum confidence value for detected objects to be acknowledged
-        @param use_tpu: specifier if a TPU is to be used
-        @param distance_threshold: minimum distance value between objects
+        :param model_name: Name of the directory for the detection model
+        :param graph_name: Name of the used detection model file
+        :param labelmap_name: Name of the used labelmap file
+        :param min_conf_threshold: minimum confidence value for detected objects to be acknowledged
+        :param use_tpu: specifier if a TPU is to be used
+        :param distance_threshold: minimum distance value between objects
         """
 
         self._min_conf_threshold = min_conf_threshold
@@ -117,18 +118,17 @@ class Detection:
         # Variable to hold focal width of used camera lens
         self.focal_value = 0
 
-
     def _distance_calculation(self,
-                              object_coordinates:list = [],
-                              avg_width:int = 53,
-                              debug:bool = False
+                              object_coordinates: list = [],
+                              avg_width: int = 53,
+                              debug: bool = False
                               ):
         """
         Distance calculation of detected objects.
 
-        @param object_coordinates: 2 dimensional matrix of coordinates for the objects
-        @param avg_width: (estimated) wisth of the detection objects
-        @return: list of distance information (positioning of the objects, second object,
+        :param object_coordinates: 2 dimensional matrix of coordinates for the objects
+        :param avg_width: (estimated) wisth of the detection objects
+        :return: list of distance information (positioning of the objects, second object,
         shortest distance of objects, distance threshold in pixel)
         """
 
@@ -147,12 +147,12 @@ class Detection:
             proportion_x[j] = object_coordinates[j][1][0] - object_coordinates[j][0][0]
             camera_distance.append((self.focal_value * avg_width) / proportion_x[j])
 
-            one_pixel = proportion_x[j]/avg_width
-            if(debug):
-                print("Length of one pixel in cm:"+str(one_pixel))
-                print("Object "+str(j)+" - Distance to camera:", camera_distance[-1])
+            one_pixel = proportion_x[j] / avg_width
+            if (debug):
+                print("Length of one pixel in cm:" + str(one_pixel))
+                print("Object " + str(j) + " - Distance to camera:", camera_distance[-1])
 
-            if(j > 0):
+            if (j > 0):
                 min_dist_pixels = one_pixel * self.distance_threshold
 
                 for k in range(j):
@@ -163,62 +163,62 @@ class Detection:
                     # Distance objects on z axis
                     dist_obj_z = abs(camera_distance[j] - camera_distance[k])
 
-                    if(debug):
-                        print("Object "+str(j)+", "+str(k)+" - Distance to camera:", camera_distance[-1])
+                    if (debug):
+                        print("Object " + str(j) + ", " + str(k) + " - Distance to camera:", camera_distance[-1])
 
                     # Check for shortest distance between the objects
-                    if(min_dist_obj_x_1 < min_dist_obj_x_2):
-                        objects_distance =  math.sqrt(min_dist_obj_x_1**2 + dist_obj_z**2)
+                    if (min_dist_obj_x_1 < min_dist_obj_x_2):
+                        objects_distance = math.sqrt(min_dist_obj_x_1 ** 2 + dist_obj_z ** 2)
                         case = 0
-                    elif(min_dist_obj_x_2 < min_dist_obj_x_1):
-                        objects_distance = math.sqrt(min_dist_obj_x_2**2 + dist_obj_z**2)
+                    elif (min_dist_obj_x_2 < min_dist_obj_x_1):
+                        objects_distance = math.sqrt(min_dist_obj_x_2 ** 2 + dist_obj_z ** 2)
                         case = 1
                     else:
                         objects_distance = 0
                         case = 2
 
                     # Check if the shortest distance between the objects is smaller than the threshold
-                    if(objects_distance < min_dist_pixels):
+                    if (objects_distance < min_dist_pixels):
                         return [case, j, k, objects_distance, min_dist_pixels]
                     else:
                         return [3, j, k, objects_distance, min_dist_pixels]
 
         return [3]
 
-
     def _draw(self,
               frame,
-              object_coordinates:list,
-              object_position_1:int,
-              object_position_2:int,
-              objects_distance:int,
-              min_dist:int,
-              debug:bool = False
+              object_coordinates: list,
+              object_position_1: int,
+              object_position_2: int,
+              objects_distance: int,
+              min_dist: int,
+              debug: bool = False
               ):
         """
-        @param frame: video frame to paint on
-        @param object_coordinates: 2 dimensional matrix of the object coordinates
-        @param object_position_1: position of the first objects coordinates in the matrix
-        @param object_position_2: position of the second objects coordinates in the matrix
-        @param objects_distance: distance between the two objects
-        @param min_dist: distance threshold of the objects (in pixel)
+        :param frame: video frame to paint on
+        :param object_coordinates: 2 dimensional matrix of the object coordinates
+        :param object_position_1: position of the first objects coordinates in the matrix
+        :param object_position_2: position of the second objects coordinates in the matrix
+        :param objects_distance: distance between the two objects
+        :param min_dist: distance threshold of the objects (in pixel)
 
         """
 
         # Draw distance line
         cv2.line(frame, (object_coordinates[object_position_1][1][0], object_coordinates[object_position_1][1][1]),
-                 (object_coordinates[object_position_2][0][0], object_coordinates[object_position_2][1][1]), (255,10,0), 2)
+                 (object_coordinates[object_position_2][0][0], object_coordinates[object_position_2][1][1]),
+                 (255, 10, 0), 2)
 
         # Draw info box
         dist_label = '%s / %d' % (round(objects_distance, 2), round(min_dist, 2))
         dist_label_size, dist_base_line = cv2.getTextSize(dist_label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
         dist_label_ymin = max(object_coordinates[object_position_1][1][1], dist_label_size[1] + 10)
         cv2.rectangle(frame, (object_coordinates[object_position_1][1][0], dist_label_ymin - dist_label_size[1] - 10),
-                      (object_coordinates[object_position_1][1][0] + dist_label_size[0], dist_label_ymin + dist_base_line -10),
-                      (255,255,255), cv2.FILLED)
-        cv2.putText(frame, dist_label, (object_coordinates[object_position_1][1][0], dist_label_ymin-7),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,0), 2)
-
+                      (object_coordinates[object_position_1][1][0] + dist_label_size[0],
+                       dist_label_ymin + dist_base_line - 10),
+                      (255, 255, 255), cv2.FILLED)
+        cv2.putText(frame, dist_label, (object_coordinates[object_position_1][1][0], dist_label_ymin - 7),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
 
 
 """
