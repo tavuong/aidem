@@ -21,7 +21,10 @@ import cv2
 import tkinter as tk
 import tkinter.messagebox as mb
 from datetime import date
-from Detection_Models import LiveDetection, VideoDetection, LiveFaceSwap
+from aidem.tim_camera.DetectionModels.LiveDetectionModel import LiveDetection
+from aidem.tim_camera.DetectionModels.VideoDetectionModel import VideoDetection
+from aidem.tim_camera.DetectionModels.LiveFaceSwapModel import LiveFaceSwap
+from aidem.tim_camera.DetectionModels.BasisModel import Functionality
 
 
 class DetectionGUI(tk.Frame):
@@ -90,6 +93,35 @@ class DetectionGUI(tk.Frame):
         self.options_autosave_boolvar = tk.BooleanVar()
         self.options_debug_boolvar = tk.BooleanVar()
 
+    def functionality_selection(self):
+        # Selection of functionality (simple detection, objects counting, distance measuring) for live and video detection
+        funct = self.functionality_intvar.get()
+        if funct == 1:
+            self.functionality = Functionality.Detection
+        elif funct == 2:
+            self.functionality = Functionality.Counting
+        elif funct == 3:
+            self.functionality = Functionality.Distance
+        else:
+            raise ValueError("Invalid selection for functionality.")
+
+        if funct == 3:
+            self.live_info_label.grid(column=0, row=4)
+            self.distance_threshold_label.grid(column=1, row=2)
+            self.distance_threshold_entry.grid(column=2, row=2)
+            self.object_width_label.grid(column=1, row=3)
+            self.object_width_entry.grid(column=2, row=3)
+            self.objects_type_label.grid(column=1, row=4)
+            self.objects_type_entry.grid(column=2, row=4)
+        else:
+            self.live_info_label.grid_forget()
+            self.distance_threshold_label.grid_forget()
+            self.distance_threshold_entry.grid_forget()
+            self.object_width_label.grid_forget()
+            self.object_width_entry.grid_forget()
+            self.objects_type_label.grid_forget()
+            self.objects_type_entry.grid_forget()
+
     def create_widgets(self):
         """
         Create the needed widgets (Buttons, Labels) at startup.
@@ -103,7 +135,7 @@ class DetectionGUI(tk.Frame):
         self.face_swap_button = tk.Button(self.master, text="Start face detections", command=self.face_swapping)
         self.face_swap_button.grid(column=2, row=0)
 
-        # Detection controllign buttons
+        # Detection controlling buttons
         self.stop_button = tk.Button(self.master, text="End detection", command=self.stop_detection)
         self.start_button = tk.Button(self.master, text="Start detection", command=self.start_detection)
         self.swap_button = tk.Button(self.master, text="Start face swapping", command=lambda: self.start_detection(1))
@@ -122,6 +154,29 @@ class DetectionGUI(tk.Frame):
         self.vid_focal_entry = tk.Entry(self.master)
         self.vid_input_label = tk.Label(self.master, text="Video path:")
         self.vid_input_entry = tk.Entry(self.master)
+
+        # Radio buttons for detection
+        self.functionality_intvar = tk.IntVar(value=1)
+        self.functionality = Functionality.Detection
+
+        self.radio1 = tk.Radiobutton(self.master, text="Object detection", variable=self.functionality_intvar, value=1,
+                                     fg="#000000", command=self.functionality_selection)
+        self.radio2 = tk.Radiobutton(self.master, text="Object counting", variable=self.functionality_intvar, value=2,
+                                     fg="#000000", command=self.functionality_selection)
+        self.radio3 = tk.Radiobutton(self.master, text="Distance calculation", variable=self.functionality_intvar,
+                                     fg="#000000", value=3, command=self.functionality_selection)
+
+
+        self.distance_threshold_intvar = tk.IntVar()
+        self.object_width_intvar = tk.IntVar()
+        self.objects_type_textvar = tk.StringVar()
+
+        self.distance_threshold_label = tk.Label(self.master, text="Distance threshold (cm):")
+        self.distance_threshold_entry = tk.Entry(self.master, textvar=self.distance_threshold_intvar)
+        self.object_width_label = tk.Label(self.master, text="Width of objects (cm):")
+        self.object_width_entry = tk.Entry(self.master, textvar=self.object_width_intvar)
+        self.objects_type_label = tk.Label(self.master, text="Objects name:")
+        self.objects_type_entry = tk.Entry(self.master, textvar=self.objects_type_textvar)
 
     def start_calibrate(self, case: int = 0):
         """
@@ -170,7 +225,7 @@ class DetectionGUI(tk.Frame):
                                                 command=lambda: self.confirm_calibr(case))
                 self.do_calibration.grid(column=0, row=0, columnspan=2)
             else:
-                mb.showerror("Error", "Incorrect calibration invocation. Case: " + str(case))
+                mb.showerror("Error", "Incorrect calibration invocation. Case: " + str(case) + "(invalid)")
 
     def confirm_calibr(self, case: int = 0):
         """
@@ -187,7 +242,8 @@ class DetectionGUI(tk.Frame):
             self.cal_vals = [obj_width, obj_dist, obj_name]
 
             if (self.cal_vals[0].isdigit() and self.cal_vals[1].isdigit()):
-                success = self.detection_obj.calibrate(int(self.cal_vals[0]), int(self.cal_vals[1]), self.cal_vals[2])
+                success = self.detection_obj.calibrate(int(self.cal_vals[0]), int(self.cal_vals[1]), self.cal_vals[2],
+                                                       debug=self.debug_mode)
             else:
                 mb.showerror("Type error", "Incorrect type(s) entered. Width and distance have to be integers.")
         elif (case == 1):
@@ -205,7 +261,7 @@ class DetectionGUI(tk.Frame):
             else:
                 mb.showerror("Type error", "Incorrect type(s) entered. Only integers are allowed")
         else:
-            mb.showerror("Error", "Incorrect calibration confirmation. Case: " + str(case))
+            mb.showerror("Error", "Incorrect calibration confirmation. Case: " + str(case) + "(invalid)")
 
         cv2.destroyAllWindows()
 
@@ -247,10 +303,12 @@ class DetectionGUI(tk.Frame):
         self.start_button.grid(column=0, row=0)
         self.home_button.grid(column=1, row=0)
 
+        self.radio1.grid(column=0, row=1)
+        self.radio2.grid(column=0, row=2)
+        self.radio3.grid(column=0, row=3)
+
         self.detection_obj = LiveDetection()
         self.focal = 0
-
-        self.live_info_label.grid(column=0, row=1)
 
     def video_detection(self):
         """
@@ -268,12 +326,15 @@ class DetectionGUI(tk.Frame):
         self.start_button.grid(column=0, row=0)
         self.home_button.grid(column=1, row=0)
 
+        self.radio1.grid(column=0, row=1)
+        self.radio2.grid(column=0, row=2)
+
         self.detection_obj = VideoDetection()
 
-        self.vid_info_label.grid(column=0, row=1)
-        self.vid_focal_entry.grid(column=1, row=1)
-        self.vid_input_label.grid(column=0, row=2)
-        self.vid_input_entry.grid(column=1, row=2)
+        self.vid_info_label.grid(column=1, row=1)
+        self.vid_focal_entry.grid(column=2, row=1)
+        self.vid_input_label.grid(column=1, row=2)
+        self.vid_input_entry.grid(column=2, row=2)
 
     def start_detection(self, arg: int = 0):
         """
@@ -282,6 +343,8 @@ class DetectionGUI(tk.Frame):
 
         self.start_button.grid_forget()
         self.swap_button.grid_forget()
+        self.radio1.grid_forget()
+        self.radio2.grid_forget()
         self.live_info_label.grid_forget()
         self.stop_button.grid(column=0, row=0)
         self.detection_info_label.grid(column=0, row=1, columnspan=2)
@@ -306,7 +369,8 @@ class DetectionGUI(tk.Frame):
                 self.stop_detection()
                 self.video_detection()
             else:
-                self.detection_obj.detect(video_name=video_path, focal_width=focal)
+                self.detection_obj.detect(video_name=video_path, focal_width=focal, functionality=self.functionality,
+                                          debug=self.debug_mode)
 
         elif (type(self.detection_obj) is LiveFaceSwap):
             print("Live face swap start")
@@ -329,12 +393,28 @@ class DetectionGUI(tk.Frame):
             if arg == 0:
                 self.detection_obj.detect(autosave=self.autosave, video_title=video_name, debug=self.debug_mode)
             elif arg == 1:
-                self.detection_obj.face_swap()
+                self.detection_obj.face_swap(debug=self.debug_mode)
             else:
                 return None
 
         else:
             print("Live detection start")
+            self.radio3.grid_forget()
+            if self.functionality == Functionality.Distance:
+                self.distance_threshold_label.grid_forget()
+                self.distance_threshold_entry.grid_forget()
+                self.object_width_label.grid_forget()
+                self.object_width_entry.grid_forget()
+                self.objects_type_label.grid_forget()
+                self.objects_type_entry.grid_forget()
+
+                # Set variables for the distance calculations
+                self.detection_obj.objects_width_cm = self.object_width_intvar.get()
+                self.detection_obj.distance_threshold = self.distance_threshold_intvar.get()
+                object_distance_detect_name = self.objects_type_textvar.get()
+
+                if object_distance_detect_name is not None and object_distance_detect_name != "":
+                    self.detect_select = [object_distance_detect_name]
 
             if self.autosave:
                 if not (os.path.isdir(self.video_folder)):
@@ -344,9 +424,11 @@ class DetectionGUI(tk.Frame):
                     video_name = "detection_" + date.now().strftime("%Y_%m_%d_%H_%M_%S")
                 else:
                     video_name = self.video_folder + "detection_" + date.now().strftime("%Y_%m_%d_%H_%M_%S")
-                self.detection_obj.detect(self.detect_select, self.no_detect_select, self.autosave, video_name)
+                self.detection_obj.detect(self.detect_select, self.no_detect_select, self.functionality,
+                                          self.autosave, video_name, debug=self.debug_mode)
             else:
-                self.detection_obj.detect(self.detect_select, self.no_detect_select)
+                self.detection_obj.detect(self.detect_select, self.no_detect_select, self.functionality,
+                                          debug=self.debug_mode)
 
     def stop_detection(self):
         """
@@ -368,6 +450,10 @@ class DetectionGUI(tk.Frame):
         """
         Go back to the main window
         """
+
+        self.radio1.grid_forget()
+        self.radio2.grid_forget()
+        self.radio3.grid_forget()
 
         self.start_button.grid_forget()
         self.live_info_label.grid_forget()
@@ -433,7 +519,7 @@ class DetectionGUI(tk.Frame):
     def apply(self, quit: bool = False):
         """ """
 
-        self.autosave = self.options_autosave_boolvar.get()
+        self.autosave = False#self.options_autosave_boolvar.get()
         self.video_folder = self.options_video_folder_textvar.get()
         self.detect_select = self.options_select_textvar.get().replace(" ", "").split(",")
         self.no_detect_select = self.options_no_select_textvar.get().replace(" ", "").split(",")
