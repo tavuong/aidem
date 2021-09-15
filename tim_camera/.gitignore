@@ -1,12 +1,18 @@
+# IDE files
 .idea
 __pycache__
-cam_venv
-venv
-.directory
+
+# Video and image files
 *.h264
 Sample_Video
 Calibration_stuff
-*.dat
 swap_faces/
-config.pyc
+
+# Models
+*.tflite
+*.dat
 *.xml
+
+# Other
+config.pyc
+.directory
