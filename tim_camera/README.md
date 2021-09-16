@@ -19,6 +19,10 @@ This program is written in **python 3.6 +**. It is also optimized for usage with
     * `pip3 install tflite`
     * `pip3 install tensorflow`
     * `pip3 install dlib`
+4. Download the AI models
+    * Object detection model from Tensorflow / tflite [Link](https://www.tensorflow.org/lite/examples/object_detection/overview?hl=en)
+    * Facial landmarks detector from dlib [Link](https://github.com/davisking/dlib-models/blob/master/shape_predictor_68_face_landmarks.dat.bz2)
+5. Extract the models. Object detection model to `Sample_Model` and landmarks detector to the project root directory. Images for face swapping have to be in `swap_faces` with filename `swap.jpeg`.
 
 Instead of installing *tflite* and *tensorflow* one can install [*tflite runtime*](https://www.tensorflow.org/lite/guide/python) on devices it is available.
 

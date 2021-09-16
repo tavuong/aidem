@@ -114,7 +114,7 @@ class LiveFaceSwap():
         cv2.destroyAllWindows()
 
 
-    def face_swap(self, swap_img="barack_obama.jpeg", debug = False):
+    def face_swap(self, swap_img="swap.jpeg", debug = False):
         """
         Live face swapping
 
