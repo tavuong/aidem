@@ -360,8 +360,6 @@ class LiveDetection(Detection):
                     if (len(no_detect) > 0):
                         if object_name in no_detect:
                             continue
-                    if object_name != "bottle":
-                        continue
 
                     objects_count += 1
 

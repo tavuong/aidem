@@ -114,7 +114,7 @@ class LiveFaceSwap():
         cv2.destroyAllWindows()
 
 
-    def face_swap(self, swap_img="barack_obama.jpeg"):
+    def face_swap(self, swap_img="barack_obama.jpeg", debug = False):
         """
         Live face swapping
 
@@ -175,7 +175,7 @@ class LiveFaceSwap():
 
 
         while True:
-            img2 = cv2.imread("./swap_faces/"+"barack_obama.jpeg")#self._videostream.read()
+            img2 = self._videostream.read()
             img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
             new_face = np.zeros_like(img2)
 

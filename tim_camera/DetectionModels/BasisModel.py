@@ -192,8 +192,6 @@ class Detection:
 
         distance_results = []
 
-        debug=True
-
         for j in range(len(object_coordinates)):
             # Measure height and width of detected person (in pixel)
             proportion_x[j] = abs(object_coordinates[j][1][0] - object_coordinates[j][0][0])
